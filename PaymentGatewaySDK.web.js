@@ -873,7 +873,7 @@ class PaymentGatewaySDK {
      * @param {string} [options.language='zh'] - 语言设置 ('zh' 或 'en')
      * @returns {Promise<{sdk: PaymentGatewaySDK, paymentInfo: Object}>}
      */
-    static async fromURL(options = { language: 'zh' }) {
+    static async fromURL(options = { language: 'en' }) {
         const language = options.language || 'zh';
         // 创建临时SDK实例以使用其错误处理系统
         const tempSdk = new PaymentGatewaySDK(null, 'LOCAL', language);

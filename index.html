@@ -26,50 +26,154 @@
     </script>
     <style>
         :root {
-            --background: 220 10% 10%;
-            --primary: 210 90% 50%;
-            --primary-hover: 210 90% 45%;
-            --border: 220 10% 20%;
+            --background: 224 71% 4%;
+            --primary: 142 76% 36%;
+            --primary-hover: 142 76% 31%;
+            --border: 215 28% 17%;
+        }
+
+        .status-message {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            padding: 1rem !important;
+            text-align: center !important;
+            max-width: 100%;
+        }
+
+        .status-message .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .status-message .icon {
+            flex-shrink: 0;
+        }
+
+        .status-message .message {
+            word-break: break-all;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .status-message .hash {
+            display: block;
+            width: 100%;
+            margin-top: 0.5rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: #9CA3AF;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            position: relative;
+            text-align: left;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            padding-right: 2.5rem;
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-message .hash:hover .copy-button {
+            opacity: 1;
+        }
+
+        .status-message .copy-button {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            background: rgba(255, 255, 255, 0.1);
+            width: 1.75rem;
+            height: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-message .copy-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .status-message.error {
+            @apply bg-red-500/10 text-red-500 border border-red-500/20;
+        }
+
+        .status-message.success {
+            @apply bg-emerald-500/10 text-emerald-400 border border-emerald-500/20;
+        }
+
+        .status-message .hash-text {
+            flex: 1;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
-<body class="bg-[#000000] text-white min-h-screen flex items-center justify-center p-4 antialiased">
+<body class="bg-[#02050E] text-white min-h-screen flex items-center justify-center p-4 antialiased">
     <div class="w-full max-w-md mx-auto">
-        <div class="bg-[#15181C] border border-[#2F3336] rounded-3xl p-6 md:p-8 shadow-xl">
-            <div class="flex items-center space-x-4 border-b border-[#2F3336] pb-6 mb-6">
-                <div class="w-12 h-12 bg-blue-500 rounded-full"></div>
-                <h1 class="text-2xl font-bold">Crypto Payment</h1>
+        <div class="bg-[#080B17] border border-[#1E2841] rounded-3xl p-6 md:p-8 shadow-2xl backdrop-blur-sm">
+            <div class="flex items-center space-x-4 border-b border-[#1E2841] pb-6 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Crypto Payment</h1>
             </div>
 
-            <div class="inline-flex items-center px-4 py-2 bg-[#1C1F23] border border-[#2F3336] rounded-full text-sm text-[#71767B] mb-6" id="networkBadge">
+            <div class="inline-flex items-center px-4 py-2 bg-[#0D1119] border border-[#1E2841] rounded-xl text-sm text-emerald-400 mb-6 font-medium" id="networkBadge">
             </div>
 
             <div class="space-y-4 mb-8">
-                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#2F3336]">
-                    <span class="text-[#71767B]">Order ID</span>
-                    <span class="font-medium break-all" id="orderId"></span>
+                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#1E2841]">
+                    <span class="text-gray-400">Order ID</span>
+                    <span class="font-medium break-all text-gray-200" id="orderId"></span>
                 </div>
-                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#2F3336]">
-                    <span class="text-[#71767B]">Merchant ID</span>
-                    <span class="font-medium break-all" id="merchantId"></span>
+                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#1E2841]">
+                    <span class="text-gray-400">Merchant ID</span>
+                    <span class="font-medium break-all text-gray-200" id="merchantId"></span>
                 </div>
-                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#2F3336]">
-                    <span class="text-[#71767B]">Token</span>
-                    <span class="font-medium" id="tokenSymbol"></span>
+                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#1E2841]">
+                    <span class="text-gray-400">Token</span>
+                    <span class="font-medium text-gray-200" id="tokenSymbol"></span>
                 </div>
             </div>
 
-            <div class="text-center p-8 border border-[#2F3336] rounded-2xl bg-[#1C1F23] mb-8">
-                <div class="text-4xl font-bold text-blue-500" id="amount"></div>
+            <div class="text-center p-8 border border-[#1E2841] rounded-2xl bg-gradient-to-b from-[#0D1119] to-[#080B17] mb-8">
+                <div class="text-4xl font-bold text-emerald-400" id="amount"></div>
             </div>
 
             <button id="payButton" 
-                    class="w-full py-5 px-6 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold text-lg transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
+                    class="w-full py-5 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-bold text-lg transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none shadow-lg shadow-emerald-500/20"
                     disabled>
                 Connect Wallet
             </button>
             
-            <div id="status" class="hidden mt-6 p-4 rounded-xl text-center text-sm"></div>
+            <div id="status" class="hidden mt-6 p-4 rounded-xl text-center text-sm bg-[#0D1119] border border-[#1E2841]"></div>
         </div>
     </div>
 
@@ -80,9 +184,86 @@
 
         function showStatus(message, isError = false) {
             const statusElement = document.getElementById('status');
-            statusElement.textContent = message;
+            statusElement.innerHTML = '';
+            
+            // 创建内容容器
+            const contentContainer = document.createElement('div');
+            contentContainer.className = 'content';
+            
+            // 创建图标元素
+            const icon = document.createElement('span');
+            icon.className = 'icon';
+            if (isError) {
+                icon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                    </svg>`;
+            } else {
+                icon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>`;
+            }
+
+            // 创建消息容器
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message';
+
+            // 检查是否包含交易哈希
+            if (message.includes('交易哈希:')) {
+                const [text, hash] = message.split('交易哈希:');
+                messageContainer.textContent = text;
+                
+                // 添加图标和消息到内容容器
+                contentContainer.appendChild(icon);
+                contentContainer.appendChild(messageContainer);
+                
+                // 创建哈希容器
+                const hashContainer = document.createElement('div');
+                hashContainer.className = 'hash';
+                
+                // 创建哈希文本容器
+                const hashText = document.createElement('span');
+                hashText.className = 'hash-text';
+                hashText.textContent = hash.trim();
+                hashContainer.appendChild(hashText);
+                
+                // 添加复制按钮
+                const copyButton = document.createElement('button');
+                copyButton.className = 'copy-button';
+                copyButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                    </svg>
+                `;
+                copyButton.onclick = () => {
+                    navigator.clipboard.writeText(hash.trim());
+                    showStatus('已复制交易哈希到剪贴板');
+                };
+                
+                hashContainer.appendChild(copyButton);
+                
+                // 添加内容容器和哈希容器到状态元素
+                statusElement.appendChild(contentContainer);  // 先添加内容容器
+                statusElement.appendChild(hashContainer);    // 再添加哈希容器
+            } else {
+                messageContainer.textContent = message;
+                
+                // 添加图标和消息到内容容器
+                contentContainer.appendChild(icon);
+                contentContainer.appendChild(messageContainer);
+                
+                // 添加内容容器到状态元素
+                statusElement.appendChild(contentContainer);
+            }
+            
             statusElement.className = `status-message ${isError ? 'error' : 'success'}`;
-            statusElement.style.display = 'block';
+            statusElement.style.display = 'flex';
+
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 5000);
         }
 
         function updatePayButton(text, disabled = false) {
@@ -101,76 +282,107 @@
                 isInitializing = true;
                 updatePayButton('Initializing...', true);
                 
+                // 检查是否安装了 MetaMask
                 if (!window.ethereum) {
-                    const tempSdk = new PaymentGatewaySDK(null, 'LOCAL', 'zh');
-                    tempSdk._handleError(null, 'NO_WALLET');
+                    throw new Error('请安装 MetaMask 钱包');
                 }
 
+                // 先尝试获取当前连接状态
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_accounts'
+                });
+
+                // 初始化 SDK
                 const result = await PaymentGatewaySDK.fromURL();
                 sdk = result.sdk;
                 paymentInfo = result.paymentInfo;
+                
+                // 更新界面显示
+                updateUIWithPaymentInfo(paymentInfo);
 
-                document.getElementById('orderId').textContent = paymentInfo.orderId;
-                document.getElementById('merchantId').textContent = paymentInfo.merchantId;
-                document.getElementById('tokenSymbol').textContent = paymentInfo.token;
-                document.getElementById('networkBadge').textContent = paymentInfo.network;
+                // 如果已经连接了钱包
+                if (accounts.length > 0) {
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    const signer = provider.getSigner();
+                    sdk = sdk.connect(signer);
+                    updatePayButton('Pay Now', false);
+                } else {
+                    updatePayButton('Connect Wallet', false);
+                }
 
-                document.getElementById('amount').textContent = `${paymentInfo.amount} ${paymentInfo.token}`;
-
-                updatePayButton('Connect Wallet', false);
+                // 设置事件监听器
                 setupEventListeners();
 
             } catch (error) {
                 console.error('SDK initialization error:', error);
-                showStatus(error.message, true);
+                showStatus(error.message || '初始化失败，请刷新页面重试', true);
                 updatePayButton('Retry Connection', false);
             } finally {
                 isInitializing = false;
             }
         }
 
-        function setupEventListeners() {
-            if (window.ethereum) {
-                window.ethereum.removeAllListeners('chainChanged');
-                window.ethereum.removeAllListeners('accountsChanged');
-            }
+        // 抽取更新UI的逻辑到单独的函数
+        function updateUIWithPaymentInfo(paymentInfo) {
+            document.getElementById('orderId').textContent = paymentInfo.orderId;
+            document.getElementById('merchantId').textContent = paymentInfo.merchantId;
+            document.getElementById('tokenSymbol').textContent = paymentInfo.token;
+            document.getElementById('networkBadge').textContent = paymentInfo.network;
+            document.getElementById('amount').textContent = `${paymentInfo.amount} ${paymentInfo.token}`;
+        }
 
-            document.getElementById('payButton').onclick = async () => {
+        // 修改事件监听器设置
+        function setupEventListeners() {
+            const payButton = document.getElementById('payButton');
+            
+            payButton.onclick = async () => {
                 try {
                     if (!sdk || !paymentInfo) {
                         await initSDK();
-                        if (!sdk || !paymentInfo) {
-                            sdk._handleError(null, 'NOT_INITIALIZED');
-                        }
+                        return;
                     }
 
+                    // 如果还没有连接钱包
                     if (!sdk.signer) {
                         updatePayButton('Connecting...', true);
                         try {
-                            await window.ethereum.request({ method: 'eth_requestAccounts' });
+                            // 请求连接钱包
+                            const accounts = await window.ethereum.request({ 
+                                method: 'eth_requestAccounts' 
+                            });
+                            
+                            if (accounts.length === 0) {
+                                throw new Error('用户拒绝了连接请求');
+                            }
+
                             const provider = new ethers.providers.Web3Provider(window.ethereum);
                             const signer = provider.getSigner();
                             sdk = sdk.connect(signer);
+                            
+                            // 验证网络
                             await sdk.validateNetwork();
+                            updatePayButton('Pay Now', false);
+                            return;
                         } catch (error) {
                             console.error('Wallet connection error:', error);
-                            sdk._handleError(error, 'NO_WALLET');
+                            showStatus(error.message || '连接钱包失败', true);
+                            updatePayButton('Connect Wallet', false);
                             return;
                         }
                     }
 
+                    // 处理支付逻辑
                     updatePayButton('Processing...', true);
-
                     const tx = await sdk.oneClickPay((status) => {
                         showStatus(status);
                     });
 
-                    showStatus('Payment successful! Hash: ' + tx.transactionHash);
+                    showStatus('支付成功! 交易哈希: ' + tx.transactionHash);
                     updatePayButton('Completed', true);
 
                 } catch (error) {
                     console.error('Payment error:', error);
-                    showStatus(error.message, true);
+                    showStatus(error.message || '支付失败', true);
                     updatePayButton('Connect Wallet', false);
                 }
             };
