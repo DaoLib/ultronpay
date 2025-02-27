@@ -6,257 +6,70 @@
     <title>Crypto Payment</title>
     <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script src="PaymentGatewaySDK.web.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        background: "hsl(var(--background))",
+                        primary: {
+                            DEFAULT: "hsl(var(--primary))",
+                            hover: "hsl(var(--primary-hover))",
+                        },
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         :root {
-            --background: #000000;
-            --text: #E7E9EA;
-            --secondary-text: #71767B;
-            --border: #2F3336;
-            --primary: #1D9BF0;
-            --primary-hover: #1A8CD8;
-            --error: #F4212E;
-            --success: #00BA7C;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--background);
-            color: var(--text);
-            line-height: 1.5;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .payment-card {
-            background-color: #15181C;
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 32px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            width: 48px;
-            height: 48px;
-            margin-right: 16px;
-            border-radius: 50%;
-            background-color: var(--primary);
-        }
-
-        .title {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .info-group {
-            margin-bottom: 32px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 16px;
-        }
-
-        .info-label {
-            color: var(--secondary-text);
-            font-size: 16px;
-        }
-
-        .info-value {
-            font-weight: 500;
-            font-size: 16px;
-            word-break: break-all;
-        }
-
-        .amount-display {
-            text-align: center;
-            padding: 32px 0;
-            margin: 32px 0;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background-color: #1C1F23;
-        }
-
-        .amount-value {
-            font-size: 42px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .pay-button {
-            width: 100%;
-            padding: 20px;
-            border-radius: 9999px;
-            border: none;
-            background-color: var(--primary);
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .pay-button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(29, 155, 240, 0.3);
-        }
-
-        .pay-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .status-message {
-            margin-top: 24px;
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            display: none;
-            font-size: 16px;
-        }
-
-        .status-message.error {
-            background-color: rgba(244, 33, 46, 0.1);
-            color: var(--error);
-            border: 1px solid var(--error);
-        }
-
-        .status-message.success {
-            background-color: rgba(0, 186, 124, 0.1);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .network-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: #1C1F23;
-            border: 1px solid var(--border);
-            border-radius: 9999px;
-            font-size: 16px;
-            color: var(--secondary-text);
-            margin-bottom: 24px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .payment-card {
-                padding: 24px;
-            }
-
-            .title {
-                font-size: 24px;
-            }
-
-            .amount-value {
-                font-size: 36px;
-            }
-
-            .logo {
-                width: 40px;
-                height: 40px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 12px;
-            }
-
-            .payment-card {
-                padding: 20px;
-            }
-
-            .title {
-                font-size: 20px;
-            }
-
-            .amount-value {
-                font-size: 32px;
-            }
-
-            .info-row {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .info-value {
-                color: var(--primary);
-            }
-
-            .logo {
-                width: 36px;
-                height: 36px;
-            }
+            --background: 220 10% 10%;
+            --primary: 210 90% 50%;
+            --primary-hover: 210 90% 45%;
+            --border: 220 10% 20%;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="payment-card">
-            <div class="header">
-                <div class="logo"></div>
-                <div class="title">Crypto Payment</div>
+<body class="bg-[#000000] text-white min-h-screen flex items-center justify-center p-4 antialiased">
+    <div class="w-full max-w-md mx-auto">
+        <div class="bg-[#15181C] border border-[#2F3336] rounded-3xl p-6 md:p-8 shadow-xl">
+            <div class="flex items-center space-x-4 border-b border-[#2F3336] pb-6 mb-6">
+                <div class="w-12 h-12 bg-blue-500 rounded-full"></div>
+                <h1 class="text-2xl font-bold">Crypto Payment</h1>
             </div>
 
-            <div class="network-badge" id="networkBadge"></div>
+            <div class="inline-flex items-center px-4 py-2 bg-[#1C1F23] border border-[#2F3336] rounded-full text-sm text-[#71767B] mb-6" id="networkBadge">
+            </div>
 
-            <div class="info-group">
-                <div class="info-row">
-                    <span class="info-label">Order ID</span>
-                    <span class="info-value" id="orderId"></span>
+            <div class="space-y-4 mb-8">
+                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#2F3336]">
+                    <span class="text-[#71767B]">Order ID</span>
+                    <span class="font-medium break-all" id="orderId"></span>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Merchant ID</span>
-                    <span class="info-value" id="merchantId"></span>
+                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#2F3336]">
+                    <span class="text-[#71767B]">Merchant ID</span>
+                    <span class="font-medium break-all" id="merchantId"></span>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Token</span>
-                    <span class="info-value" id="tokenSymbol"></span>
+                <div class="flex flex-col md:flex-row justify-between py-4 border-b border-[#2F3336]">
+                    <span class="text-[#71767B]">Token</span>
+                    <span class="font-medium" id="tokenSymbol"></span>
                 </div>
             </div>
 
-            <div class="amount-display">
-                <div class="amount-value" id="amount"></div>
+            <div class="text-center p-8 border border-[#2F3336] rounded-2xl bg-[#1C1F23] mb-8">
+                <div class="text-4xl font-bold text-blue-500" id="amount"></div>
             </div>
 
-            <button id="payButton" class="pay-button" disabled>Connect Wallet</button>
+            <button id="payButton" 
+                    class="w-full py-5 px-6 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold text-lg transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
+                    disabled>
+                Connect Wallet
+            </button>
             
-            <div id="status" class="status-message"></div>
+            <div id="status" class="hidden mt-6 p-4 rounded-xl text-center text-sm"></div>
         </div>
     </div>
 
@@ -288,7 +101,6 @@
                 isInitializing = true;
                 updatePayButton('Initializing...', true);
                 
-                // 检查是否安装了钱包
                 if (!window.ethereum) {
                     const tempSdk = new PaymentGatewaySDK(null, 'LOCAL', 'zh');
                     tempSdk._handleError(null, 'NO_WALLET');
@@ -298,13 +110,11 @@
                 sdk = result.sdk;
                 paymentInfo = result.paymentInfo;
 
-                // 更新UI显示
                 document.getElementById('orderId').textContent = paymentInfo.orderId;
                 document.getElementById('merchantId').textContent = paymentInfo.merchantId;
                 document.getElementById('tokenSymbol').textContent = paymentInfo.token;
                 document.getElementById('networkBadge').textContent = paymentInfo.network;
 
-                // 直接显示金额
                 document.getElementById('amount').textContent = `${paymentInfo.amount} ${paymentInfo.token}`;
 
                 updatePayButton('Connect Wallet', false);
